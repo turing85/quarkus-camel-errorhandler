@@ -222,7 +222,7 @@ class JmsRouteTest {
   }
 
   private void sendToTopic(int bodyToSend) {
-    try (JMSContext context = connectionFactory.createContext()) {
+    try (final JMSContext context = connectionFactory.createContext()) {
       context.createProducer().send(context.createTopic(JmsRoute.TOPIC), bodyToSend);
     }
   }
@@ -264,10 +264,10 @@ class JmsRouteTest {
       Awaitility.await()
           .atMost(duration)
           .untilAsserted(() -> {
-            ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM numbers");
+            final ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM numbers");
             Truth.assertThat(rs.next()).isTrue();
-            int count = rs.getInt(1);
-            int dots = (int) (count * (10d / n));
+            final int count = rs.getInt(1);
+            final int dots = (int) (count * (10d / n));
             if (dots > currentDots[0]) {
               currentDots[0] = dots;
               log.info(".".repeat(currentDots[0]));
